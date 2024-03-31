@@ -1,5 +1,5 @@
 import { createCar, getAllCars, getCars } from "../../api";
-import CarData from "../../types";
+import { CarData } from "../../types";
 import GarageView from "./GarageView";
 
 function getRandomColor() {
@@ -53,6 +53,7 @@ export default class GarageModel {
 
   async updateTotalCarsCount() {
     this.totalCarCount = (await getAllCars()).length;
+    this.garageView.updateTotalCarCount(this.totalCarCount);
     console.log(this.totalCarCount);
   }
 

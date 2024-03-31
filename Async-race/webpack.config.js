@@ -33,6 +33,7 @@ module.exports = {
   devServer: {
     open: true,
     host: "localhost",
+    historyApiFallback: true,
   },
 
   module: {
