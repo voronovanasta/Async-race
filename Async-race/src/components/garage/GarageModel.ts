@@ -42,19 +42,39 @@ export default class GarageModel {
 
   newCar: CarData;
 
+  nameInput: string;
+
+  colorInput: string;
+
+  updateNameInput: string;
+
+  updateColorInput: string;
+
+  selectedCarId: number;
+
   constructor(garageView: GarageView) {
     this.cars = [];
     this.garageView = garageView;
     this.page = 1;
     this.carData = { name: "", color: " " };
     this.newCar = { name: "", color: " " };
-    this.totalCarCount = 4;
+    this.totalCarCount = 0;
+    this.nameInput = "";
+    this.colorInput = "";
+    this.updateNameInput = "";
+    this.updateColorInput = "";
+    this.selectedCarId = 0;
+  }
+
+  init() {
+    this.updateTotalCarsCount();
+    this.updatePageNum(); // data from controller
+    this.drawGarage();
   }
 
   async updateTotalCarsCount() {
     this.totalCarCount = (await getAllCars()).length;
     this.garageView.updateTotalCarCount(this.totalCarCount);
-    console.log(this.totalCarCount);
   }
 
   async createHundredCars() {
@@ -63,7 +83,6 @@ export default class GarageModel {
     while (i !== 100) {
       const name = getRandomModel();
       const color = getRandomColor();
-      // await createCar({ name, color });
       const carData = { name, color };
       const car = fetch(`http://127.0.0.1:3000/garage`, {
         method: "POST",
@@ -79,15 +98,40 @@ export default class GarageModel {
 
     Promise.all(arrCars);
     this.updateTotalCarsCount();
+    this.drawGarage();
   }
 
   async drawGarage() {
     this.cars = await getCars(this.page);
-    // this.garageView.drawGarage(this.cars);
+    this.garageView.drawGarage(this.cars);
   }
 
   async createCar() {
     this.newCar = await createCar(this.carData);
-    // this.garageView.drawCar(this.newCar);
+    this.garageView.drawCar(this.newCar);
   }
+
+  updatePageNum() {
+    this.garageView.updatePageNum(this.page);
+  }
+
+  switchToPrev() {
+    if (this.page > 1) {
+      this.page -= 1;
+      this.drawGarage();
+      this.updatePageNum();
+      this.garageView.updatePrevBtn(this.page);
+    }
+  }
+
+  switchToNext() {
+    this.page += 1;
+    this.drawGarage();
+    this.updatePageNum();
+    this.garageView.updatePrevBtn(this.page);
+  }
+
+  //   updateCar() {
+
+  //   }
 }
