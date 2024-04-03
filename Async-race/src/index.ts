@@ -1,4 +1,3 @@
-import "./assets/img/car.svg";
 import FooterComponent from "./components/pagesComponents/footerComponent";
 import HeaderComponent from "./components/pagesComponents/headerComponent";
 import "./index.css";

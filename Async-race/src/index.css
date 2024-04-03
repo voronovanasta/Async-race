@@ -1,3 +1,37 @@
 body {
     margin: auto;
 }
+
+.garage-wrapper,
+.cars-container {
+    padding: 15px;
+}
+
+button {
+height: 20px;
+}
+
+.car-track {
+    height: 30px;
+    background-color: green;
+    border-bottom: 2px dotted black;
+}
+
+.config-btns {
+    display: flex;
+}
+
+.selected {
+    background-color: yellow;
+}
+
+.car-container {
+    height: 70px;
+    margin-bottom: 10px;
+    width: 50%;
+}
+
+.item {
+    display: flex;
+    margin: 10px 0;
+}

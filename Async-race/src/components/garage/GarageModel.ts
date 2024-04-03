@@ -1,5 +1,5 @@
-import { createCar, getAllCars, getCars } from "../../api";
-import { CarData } from "../../types";
+import { createCar, getAllCars, getCars, updateCar } from "../../api";
+import { CarData } from "../../types";// eslint-disable-line
 import GarageView from "./GarageView";
 
 function getRandomColor() {
@@ -50,7 +50,7 @@ export default class GarageModel {
 
   updateColorInput: string;
 
-  selectedCarId: number;
+  selectedCarId: string;
 
   constructor(garageView: GarageView) {
     this.cars = [];
@@ -63,12 +63,12 @@ export default class GarageModel {
     this.colorInput = "";
     this.updateNameInput = "";
     this.updateColorInput = "";
-    this.selectedCarId = 0;
+    this.selectedCarId = "";
   }
 
   init() {
     this.updateTotalCarsCount();
-    this.updatePageNum(); // data from controller
+    this.updatePageNum();
     this.drawGarage();
   }
 
@@ -92,7 +92,6 @@ export default class GarageModel {
         body: JSON.stringify(carData),
       });
       arrCars.push(car);
-      console.log(arrCars.length);
       i += 1;
     }
 
@@ -107,8 +106,12 @@ export default class GarageModel {
   }
 
   async createCar() {
-    this.newCar = await createCar(this.carData);
+    this.newCar = await createCar({
+      name: this.nameInput,
+      color: this.colorInput,
+    });
     this.garageView.drawCar(this.newCar);
+    this.updateTotalCarsCount();
   }
 
   updatePageNum() {
@@ -131,7 +134,16 @@ export default class GarageModel {
     this.garageView.updatePrevBtn(this.page);
   }
 
-  //   updateCar() {
-
-  //   }
+  async updateSelectedCar() {
+    this.newCar = await updateCar(
+      { name: this.updateNameInput, color: this.updateColorInput },
+      Number(this.selectedCarId),
+    );
+    console.log(this.newCar);
+    this.garageView.updateSelectedCar(
+      this.updateNameInput,
+      this.updateColorInput,
+    );
+    this.garageView.offUpdateFormState();
+  }
 }

@@ -6,48 +6,40 @@ export default class GarageController {
 
   container: HTMLElement;
 
-  carsContainer: HTMLDivElement | null;
-
   constructor(model: GarageModel, container: HTMLElement) {
     this.model = model;
     this.container = container;
-    this.carsContainer = null;
   }
 
   init() {
     this.inputEventHandler();
     this.clickEventHandler();
-    this.carsContainer = checkedQuerySelector(
+    const inputColor = checkedQuerySelector(
       this.container,
-      ".cars-container",
-    ) as HTMLDivElement;
+      "#update-color",
+    ) as HTMLInputElement;
+    console.log(inputColor.value);
   }
 
   inputEventHandler() {
-    const nameInput = checkedQuerySelector(
-      this.container,
-      "#name",
-    ) as HTMLInputElement;
-    const colorInput = checkedQuerySelector(
-      this.container,
-      "#color",
-    ) as HTMLInputElement;
     this.container.addEventListener("input", (e) => {
       if (e.target === null) throw new Error("target equals null");
       const input: HTMLInputElement = e.target as HTMLInputElement;
 
       switch (input.id) {
         case "name":
-          this.model.nameInput = nameInput.value;
+          console.log("input");
+          this.model.nameInput = input.value;
           break;
         case "color":
-          this.model.colorInput = colorInput.value;
+          this.model.colorInput = input.value;
           break;
         case "update-name":
-          this.model.nameInput = nameInput.value;
+          this.model.updateNameInput = input.value;
           break;
         case "update-color":
-          this.model.colorInput = colorInput.value;
+          this.model.updateColorInput = input.value;
+          console.log(input.value);
           break;
         default:
           break;
@@ -65,7 +57,8 @@ export default class GarageController {
           this.model.createCar();
           break;
         case "update":
-          // this.model.updateCar();
+          this.model.selectedCarId = this.getSelectedCarId();
+          this.model.updateSelectedCar();
           break;
         case "generate":
           this.model.createHundredCars();
@@ -74,7 +67,6 @@ export default class GarageController {
           this.model.switchToPrev();
           break;
         case "next":
-          console.log("prev");
           this.model.switchToNext();
           break;
         default:
@@ -83,7 +75,12 @@ export default class GarageController {
     });
   }
 
-  //   checkSelectedCar() {
-  //     // в контейнере машин найти машину с классом селектиди забрать   модель ее айдишник
-  //   }
+  getSelectedCarId() {
+    const selectedCar = checkedQuerySelector(this.container, ".selected");
+    const carContainer = checkedQuerySelector(
+      selectedCar,
+      ".car-container",
+    ) as HTMLDivElement;
+    return carContainer.dataset.id as string;
+  }
 }

@@ -1,4 +1,8 @@
 import { CarData, checkedQuerySelector } from "../../types";
+import Car from "../car/Car";
+import CarComponent from "../car/CarComponent";
+import CarController from "../car/CarController";
+import CarView from "../car/CarView";
 
 export default class GarageView {
   container: HTMLElement;
@@ -7,10 +11,13 @@ export default class GarageView {
 
   prevBtn: HTMLButtonElement | null;
 
+  formState: boolean;
+
   constructor(container: HTMLElement) {
     this.container = container;
     this.carsContainer = null;
     this.prevBtn = null;
+    this.formState = true;
   }
 
   init() {
@@ -33,13 +40,22 @@ export default class GarageView {
     });
   }
 
-  async drawCar(car: CarData) {
-    // перенести создане машин в класс машина
+  drawCar(carData: CarData) {
     if (this.carsContainer === null) throw new Error("target equals null");
-    const carDiv = document.createElement("button");
-    carDiv.textContent = `${car.name}`;
-    carDiv.style.backgroundColor = car.color as string;
-    this.carsContainer.append(carDiv);
+    const carElContainer = document.createElement("div");
+    carElContainer.innerHTML = CarComponent(carData.id as number);
+    this.carsContainer.append(carElContainer);
+
+    const carView = new CarView(carElContainer);
+    const car = new Car(
+      carView,
+      carData.name as string,
+      carData.color as string,
+      carData.id as number,
+    );
+    car.init();
+    const carController = new CarController(car, carElContainer);
+    carController.init();
   }
 
   updateTotalCarCount(count: number) {
@@ -59,5 +75,49 @@ export default class GarageView {
     } else {
       this.prevBtn.setAttribute("disabled", "disabled");
     }
+  }
+
+  updateSelectedCar(name: string, color: string) {
+    // перекрасить машинку и заменить модель
+    const carElContainer = checkedQuerySelector(
+      this.container,
+      ".selected",
+    ) as HTMLElement;
+
+    const model = checkedQuerySelector(
+      carElContainer,
+      "#car-model",
+    ) as HTMLElement;
+
+    model.innerHTML = name;
+
+    // repaint car
+
+    carElContainer.style.backgroundColor = color;
+    console.log(carElContainer);
+    carElContainer.classList.remove("selected");
+  }
+
+  offUpdateFormState() {
+    // сделать форму с инпутами не кликабельной и убрать вокус в инпуте модели
+    const updateName = checkedQuerySelector(
+      document,
+      "#update-name",
+    ) as HTMLInputElement;
+
+    const updateColor = checkedQuerySelector(
+      document,
+      "#update-color",
+    ) as HTMLInputElement;
+
+    const updateBtn = checkedQuerySelector(
+      document,
+      "#update",
+    ) as HTMLInputElement;
+
+    updateColor.setAttribute("disabled", "disabled");
+    updateName.setAttribute("disabled", "disabled");
+    updateBtn.setAttribute("disabled", "disabled");
+    this.formState = false;
   }
 }
