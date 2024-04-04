@@ -139,7 +139,6 @@ export default class GarageModel {
       { name: this.updateNameInput, color: this.updateColorInput },
       Number(this.selectedCarId),
     );
-    console.log(this.newCar);
     this.garageView.updateSelectedCar(
       this.updateNameInput,
       this.updateColorInput,

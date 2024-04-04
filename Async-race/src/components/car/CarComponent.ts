@@ -1,16 +1,20 @@
+import svgSprite from "../../assets/img/sprite.svg";
+
 const CarComponent = (
   id: number,
 ) => `<div class="car-container" data-id="${id}">
 <div class="config-btns">
-<button id="select">Select</button><button id="delete">Remove</button><p id="car-model"></p></div>
-<button id="start">A</button><button id="stop">B</button>
+<button id="select">Select</button><button id="delete">Remove</button><p id="car-title"></p></div>
+<div class="track-wrapper"><button id="start">A</button><button id="stop">B</button>
 <div class="car-track">
-<svg class="icon">
-  <use xlink:href="../../assets/img/sprite.svg#car"></use>
+<div class="car-model"><svg class="icon">
+  <use xlink:href="${svgSprite}#car"></use>
 </svg>
-<svg class="icon">
-  <use xlink:href="../../assets/img/sprite.svg#finish"></use>
+</div>
+<svg class="icon icon-finish">
+  <use xlink:href="${svgSprite}#finish"></use>
 </svg>
+</div>
 </div>
 </div>
 `;

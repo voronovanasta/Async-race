@@ -4,6 +4,11 @@ export interface CarData {
   id?: number;
 }
 
+export interface EngineData {
+  velocity: number;
+  distance: number;
+}
+
 export type RouterOptions = { [key: string]: () => void };
 
 export function checkedQuerySelector(

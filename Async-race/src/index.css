@@ -1,24 +1,47 @@
 body {
-    margin: auto;
+    margin: 0 auto;
+    font-size: 12px;
+}
+
+.wrapper {
+    height: 300px;
+}
+
+p,
+h2,
+h4 {
+    margin: 0;
+    padding: 0;
 }
 
 .garage-wrapper,
 .cars-container {
-    padding: 15px;
+    padding: 0 15px;
+}
+
+.cars-container {
+    margin-bottom: 20px;
 }
 
 button {
 height: 20px;
+font-size: 10px;
+margin-right: 5px;
 }
 
 .car-track {
-    height: 30px;
+margin: 0 0;
     background-color: green;
     border-bottom: 2px dotted black;
+    display: flex;
+    justify-content: space-between;
+    width: 250px;
 }
 
 .config-btns {
     display: flex;
+    align-items: center;
+    height: 30px;
 }
 
 .selected {
@@ -26,7 +49,6 @@ height: 20px;
 }
 
 .car-container {
-    height: 70px;
     margin-bottom: 10px;
     width: 50%;
 }
@@ -34,4 +56,24 @@ height: 20px;
 .item {
     display: flex;
     margin: 10px 0;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  fill: #4b18b9;
+  
+}
+
+.track-wrapper {
+    display: flex;
+}
+
+.car-model {
+    position: absolute;
+}
+
+.icon-finish {
+    position: absolute;
+    left: 230px;
 }

@@ -13,15 +13,17 @@ export default class CarView {
   drawCar(name: string, color: string) {
     const model = checkedQuerySelector(
       this.carElContainer,
-      "#car-model",
+      "#car-title",
     ) as HTMLElement;
+
+    const icon = checkedQuerySelector(
+      this.carElContainer,
+      ".icon",
+    ) as HTMLElement;
+
     model.innerHTML = name;
 
-    console.log(color);
-
-    model.style.color = color; // delete this
-
-    // svg change color
+    icon.style.fill = color;
   }
 
   updateSelectedCar() {

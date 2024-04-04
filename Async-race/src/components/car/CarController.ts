@@ -25,6 +25,14 @@ export default class CarController {
         case "select":
           this.carModel.updateSelectedCar();
           break;
+        case "start":
+          this.carModel.startEngine();
+          this.carModel.start();
+          break;
+        case "stop":
+          this.carModel.stopEngine();
+          this.carModel.stop();
+          break;
         default:
           break;
       }

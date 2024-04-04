@@ -22,10 +22,9 @@ module.exports = {
     new CleanWebpackPlugin(),
     new CopyPlugin({
         patterns: [
-          {
-            from: path.resolve(__dirname, "src/assets/img"),	//путь к папке, где лежат картинки
-            to: path.resolve(__dirname, "dist/img"),			//куда будут копированы
-          },
+          { from: path.resolve(__dirname, "src/assets/img"),
+            to: path.resolve(__dirname, "dist/img"),	
+        }		
         ],
       }),
       new EslintPlugin({ extensions: ['ts'] }),

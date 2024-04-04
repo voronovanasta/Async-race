@@ -46,12 +46,23 @@ export default class GarageView {
     carElContainer.innerHTML = CarComponent(carData.id as number);
     this.carsContainer.append(carElContainer);
 
+    const model = checkedQuerySelector(
+      carElContainer,
+      ".car-model",
+    ) as HTMLElement;
+    const track = checkedQuerySelector(
+      carElContainer,
+      ".car-track",
+    ) as HTMLElement;
+
     const carView = new CarView(carElContainer);
     const car = new Car(
       carView,
       carData.name as string,
       carData.color as string,
       carData.id as number,
+      model as HTMLElement,
+      track as HTMLElement,
     );
     car.init();
     const carController = new CarController(car, carElContainer);
@@ -78,7 +89,6 @@ export default class GarageView {
   }
 
   updateSelectedCar(name: string, color: string) {
-    // перекрасить машинку и заменить модель
     const carElContainer = checkedQuerySelector(
       this.container,
       ".selected",
@@ -86,15 +96,16 @@ export default class GarageView {
 
     const model = checkedQuerySelector(
       carElContainer,
-      "#car-model",
+      "#car-title",
     ) as HTMLElement;
 
+    console.log(model);
+
+    const icon = checkedQuerySelector(carElContainer, ".icon") as HTMLElement;
+
     model.innerHTML = name;
+    icon.style.fill = color;
 
-    // repaint car
-
-    carElContainer.style.backgroundColor = color;
-    console.log(carElContainer);
     carElContainer.classList.remove("selected");
   }
 
