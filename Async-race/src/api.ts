@@ -48,12 +48,11 @@ export const updateCar = async (carData: CarData, id: number) => {
 
 export const setEngine = async (status: "started" | "stopped", id: number) => {
   const response = await fetch(
-    `http://127.0.0.1:3000/engine/?${id}&${status}`,
+    `http://127.0.0.1:3000/engine/?id=${id}&status=${status}`,
     {
       method: "PATCH",
     },
   );
   const engine: EngineData = await response.json();
-  console.log(`http://127.0.0.1:3000/engine/?${id}&${status}`);
   return engine;
 };

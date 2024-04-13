@@ -35,7 +35,7 @@ export default class Car {
     this.carView = carView;
     this.model = model;
     this.x = 0;
-    this.speed = 2;
+    this.speed = 0;
     this.track = track;
     this.isFinish = false;
   }
@@ -95,6 +95,7 @@ export default class Car {
       const time: number = engine.distance / engine.velocity;
       this.speed = this.track.offsetWidth / time;
       console.log(this.speed);
+      this.start();
     } catch (err) {
       console.log(err);
     }
