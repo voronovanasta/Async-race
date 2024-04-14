@@ -21,3 +21,5 @@ export function checkedQuerySelector(
   }
   return el;
 }
+
+export type DriveResponse = { success: boolean };

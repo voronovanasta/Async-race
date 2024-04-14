@@ -27,7 +27,7 @@ export default class CarController {
           break;
         case "start":
           this.carModel.startEngine();
-          this.carModel.start();
+          // this.carModel.start();
           break;
         case "stop":
           this.carModel.stopEngine();

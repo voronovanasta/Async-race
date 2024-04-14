@@ -21,6 +21,8 @@ export default class Car {
 
   isFinish: boolean;
 
+  animationId: number;
+
   constructor(
     carView: CarView,
     name: string,
@@ -38,6 +40,7 @@ export default class Car {
     this.speed = 0;
     this.track = track;
     this.isFinish = false;
+    this.animationId = 0;
   }
 
   init() {
@@ -56,6 +59,7 @@ export default class Car {
 
   move() {
     this.x += this.speed;
+    console.log(this.speed);
     if (this.x + this.model.offsetWidth >= this.track.clientWidth) {
       this.x = this.track.clientWidth;
       this.isFinish = true;
@@ -64,17 +68,22 @@ export default class Car {
   }
 
   start() {
+    console.log("start on animation");
+    console.log(this.isFinish);
     if (!this.isFinish) {
       this.move();
-      requestAnimationFrame(() => {
+      this.animationId = requestAnimationFrame(() => {
         this.start();
       });
     }
   }
 
-  stop() {
-    this.isFinish = true;
-    this.model.style.left = `72px`;
+  stop(position = "72px") {
+    cancelAnimationFrame(this.animationId);
+    const pos = position;
+    this.x = parseInt(pos, 10);
+    this.model.style.left = pos;
+    this.isFinish = false;
   }
 
   updateSelectedCar() {
@@ -93,11 +102,32 @@ export default class Car {
     try {
       const engine = await setEngine("started", this.id);
       const time: number = engine.distance / engine.velocity;
-      this.speed = this.track.offsetWidth / time;
+      this.speed = (this.track.offsetWidth / time) * 10;
       console.log(this.speed);
-      this.start();
+      this.driveCar();
     } catch (err) {
       console.log(err);
+    }
+  }
+
+  async driveCar() {
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:3000/engine/?id=${this.id}&status=drive`,
+        {
+          method: "PATCH",
+        },
+      );
+
+      if (response.status === 500) {
+        setEngine("stopped", this.id);
+        this.stop(this.x.toString());
+        console.log("500");
+      } else {
+        this.start();
+      }
+    } catch (e) {
+      throw new Error("the car is broken.");
     }
   }
 
@@ -105,6 +135,7 @@ export default class Car {
     const engine = await setEngine("stopped", this.id);
     const time: number = engine.distance / engine.velocity;
     this.speed = this.track.offsetWidth / time;
+    console.log("stop");
     console.log(this.speed);
   }
 }
