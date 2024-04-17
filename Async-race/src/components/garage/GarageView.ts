@@ -1,4 +1,5 @@
 import { CarData, checkedQuerySelector } from "../../types";
+import currentCarsOnPage from "../../utils/currentCars";
 import Car from "../car/Car";
 import CarComponent from "../car/CarComponent";
 import CarController from "../car/CarController";
@@ -38,6 +39,7 @@ export default class GarageView {
     cars.forEach((car) => {
       this.drawCar(car);
     });
+    console.log(currentCarsOnPage);
   }
 
   drawCar(carData: CarData) {
@@ -67,6 +69,7 @@ export default class GarageView {
     car.init();
     const carController = new CarController(car, carElContainer);
     carController.init();
+    currentCarsOnPage.push(car);
   }
 
   updateTotalCarCount(count: number) {

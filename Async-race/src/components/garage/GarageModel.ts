@@ -1,5 +1,6 @@
 import { createCar, getAllCars, getCars, updateCar } from "../../api";
 import { CarData } from "../../types";// eslint-disable-line
+import currentCarsOnPage from "../../utils/currentCars";
 import GarageView from "./GarageView";
 
 function getRandomColor() {
@@ -144,5 +145,13 @@ export default class GarageModel {
       this.updateColorInput,
     );
     this.garageView.offUpdateFormState();
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  race() {
+    console.log("race");
+    currentCarsOnPage.forEach((car) => {
+      car.startEngine();
+    });
   }
 }

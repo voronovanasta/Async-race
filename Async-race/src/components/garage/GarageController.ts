@@ -69,6 +69,9 @@ export default class GarageController {
         case "next":
           this.model.switchToNext();
           break;
+        case "race":
+          this.model.race();
+          break;
         default:
           break;
       }

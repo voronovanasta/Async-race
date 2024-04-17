@@ -25,6 +25,7 @@ export default class Router {
   }
 
   launchGarage() {
+    console.log("garage");
     this.container.innerHTML = garageComponent();
     const garageView = new GarageView(this.container);
     garageView.init();
@@ -35,8 +36,9 @@ export default class Router {
   }
 
   launchWinners() {
+    console.log("winners");
     const title = document.createElement("h3");
-    title.textContent = `Winners(10)`;
+    title.textContent = `Winners(0)`;
     this.container.append(title);
   }
 }

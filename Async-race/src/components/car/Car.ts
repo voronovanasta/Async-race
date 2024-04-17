@@ -119,6 +119,8 @@ export default class Car {
         },
       );
 
+      const data = await response.json();
+
       if (response.status === 500) {
         setEngine("stopped", this.id);
         this.stop(this.x.toString());
